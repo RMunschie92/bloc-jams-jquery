@@ -29,17 +29,26 @@ $(document).ready(function () {
     player.playPause(previousSong);
   });
 
+  // ALLOWS CLICKING ON TIME RANGE SLIDER TO CHANGE PLAYBACK POSITION OF CURRENT SONG
   $('#time-control input').on('input', function (event) {
     player.skipTo(event.target.value);
   });
 
+  // SETS TIME AND INTERVALS SLIDER
   setInterval( () => {
     const currentTime = player.getTime();
     const duration = player.getDuration();
     const percent = (currentTime / duration) * 100;
-    $('#time-control .current-time').text( currentTime );
-    $('#time-control .total-time').text( duration );
+    const songTime = player.prettyTime(currentTime);
+    $('#time-control .current-time').text( songTime );
+    const songTotal = player.prettyTime(duration);
+    $('#time-control .total-time').text( songTotal );
     $('#time-control input').val(percent);
   }, 1000);
+
+  //  VOLUME CONTROL SLIDER
+  $('#volume-control input').on('input', function (event) {
+    player.setVolume(event.target.value);
+  });
 
 });
